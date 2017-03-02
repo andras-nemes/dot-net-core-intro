@@ -1,0 +1,17 @@
+﻿@model BookDetailsViewModel
+
+@{
+    ViewBag.Title = "Details of " + @Model.Title;
+}
+
+<h1>Details of @Model.Title using a partial view</h1>
+<div>
+    @Html.Partial("_BookDetails", Model)
+</div>
+
+<h1>Details of @Model.Title using a view component</h1>
+<div>
+    @await Component.InvokeAsync("BookDetails", new { bookDetailsViewModel = @Model})
+</div>
+
+@Html.ActionLink("Back to list", "Index")

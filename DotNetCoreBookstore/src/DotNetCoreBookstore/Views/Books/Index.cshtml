@@ -1,0 +1,72 @@
+﻿@model BookIndexViewModel
+
+@{
+    ViewBag.Title = "Books on offer";
+}
+<h1>These are our books on offer. Total: @Model.TotalBooksOnOffer</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Details</th>
+            <th>Details with tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bookViewModel in Model.BookViewModels)
+        {
+            <tr>
+                <td>@bookViewModel.Id</td>
+                <td reverse>@bookViewModel.Author</td>
+                <td>@bookViewModel.Title</td>
+                <td>@Html.ActionLink("Details", "Details", "Books", new { id = bookViewModel.Id }, new { @class = "book-details-link" })</td>
+                <td><a asp-action="Details" asp-controller="Books" asp-route-id="@bookViewModel.Id" class="book-details-link">Details with tag library</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("Add new", "Create")
+
+
+<a asp-action="Create">Add new with tag library</a>
+<home bookstore-home-address="/books/index" bookstore-home-link-content="Home rendered by custom tag"></home>
+<home-async bookstore-home-address="/books/index" bookstore-home-link-content="Home rendered by custom async tag">Hello world</home-async>
+
+<reverse>Hello world</reverse>
+
+<p spandec="class-value">Hello from paragraph</p>
+
+<book-on-offer book="Model.BookViewModels.ElementAt(1)" special-price="120"></book-on-offer>
+
+<book-on-offer book="new BookViewModel() { Author = Model.BookViewModels.ElementAt(1).Author, Title = Model.BookViewModels.ElementAt(1).Title }" special-price="120"></book-on-offer>
+
+<h1>Id filtered books</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Details</th>
+            <th>Details with tags</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bookViewModel in Model.BookViewModels)
+        {
+            <tr if="bookViewModel.Id > 2">
+                <td>@bookViewModel.Id</td>
+                <td>@bookViewModel.Author</td>
+                <td>@bookViewModel.Title</td>
+                <td>@Html.ActionLink("Details", "Details", "Books", new { id = bookViewModel.Id }, new { @class = "book-details-link" })</td>
+                <td><a asp-action="Details" asp-controller="Books" asp-route-id="@bookViewModel.Id" class="book-details-link">Details with tag library</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section FunnyMessage {
+    <p>This is a very funny message</p>
+}

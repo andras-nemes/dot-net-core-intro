@@ -1,0 +1,23 @@
+﻿@using DotNetCoreBookstore.Models
+@model BookDetailsViewModel
+
+<table>
+    <thead>
+        <tr>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Genre</th>
+            <th>Pages</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Author</td>
+            <td>@Model.Title</td>
+            <td>@Model.Genre</td>
+            <td>@Model.NumberOfPages</td>
+            <td>@Model.Price</td>
+        </tr>
+    </tbody>
+</table>

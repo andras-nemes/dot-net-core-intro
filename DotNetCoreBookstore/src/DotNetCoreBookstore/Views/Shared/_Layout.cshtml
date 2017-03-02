@@ -1,0 +1,27 @@
+﻿@using DotNetCoreBookstore.Dependencies
+@inject IStringFormatter StringFormatter
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <div>
+        @RenderSection("FunnyMessage", false)
+    </div>
+    <div>
+        <p>@StringFormatter.FormatMe(new { Message = "Hello from the Layout view using dependency injection", Warning = "Use this technique sparingly"})</p>
+    </div>
+    <div>
+        @await Component.InvokeAsync("FunnyMessage", new { objectToFormat = new { Message = "Invoking a view component from the layout...", TimeUtc = DateTime.UtcNow } })
+    </div>
+    <div>
+        @await Component.InvokeAsync("FunnyMessageAsync", new { objectToFormat = new { Message = "Invoking an async view component from the layout...", TimeUtc = DateTime.UtcNow } })
+    </div>
+</body>
+</html>

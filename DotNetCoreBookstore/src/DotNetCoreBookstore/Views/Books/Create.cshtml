@@ -1,0 +1,70 @@
+﻿@model InsertBookViewModel
+
+@{
+    ViewBag.Title = "Insert a new book";
+}
+
+<h1>Insert a new book</h1>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+    <div>
+        @Html.LabelFor(m => m.Author)
+        @Html.TextBoxFor(m => m.Author)
+        @Html.ValidationMessageFor(m => m.Author)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Title)
+        @Html.EditorFor(m => m.Title)
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Price)
+        @Html.TextBoxFor(m => m.Price)
+        @Html.ValidationMessageFor(m => m.Price)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.NumberOfPages)
+        @Html.TextBoxFor(m => m.NumberOfPages)
+        @Html.ValidationMessageFor(m => m.NumberOfPages)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Genre)
+        @Html.DropDownListFor(m => m.Genre, Html.GetEnumSelectList(typeof(DotNetCoreBookstore.Domains.Genre)))
+    </div>
+    <div>
+        <input type="submit" name="create-book" value="Save" />
+    </div>
+}
+
+<h1>Insert a new book with the tag library</h1>
+<form asp-action="Create" asp-antiforgery="true" asp-controller="Books">
+    @Html.ValidationSummary()
+    <div>
+        <label asp-for="Author"></label>
+        <input asp-for="Author" />
+        <span asp-validation-for="Author"></span>
+    </div>
+    <div>
+        <label asp-for="Title"></label>
+        <input asp-for="Title" />
+        <span asp-validation-for="Title"></span>
+    </div>
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price" />
+        <span asp-validation-for="Price"></span>
+    </div>
+    <div>
+        <label asp-for="NumberOfPages"></label>
+        <input asp-for="NumberOfPages" />
+        <span asp-validation-for="NumberOfPages"></span>
+    </div>       
+    <div>
+        <label asp-for="Genre"></label>
+        <select asp-for="Genre" asp-items="@Html.GetEnumSelectList(typeof(DotNetCoreBookstore.Domains.Genre))"></select>
+    </div>
+    <div>
+        <input type="submit" name="create-book" value="Save" />
+    </div>
+</form>
