@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DotNetCoreBookstore.Repositories
 {
-    public interface IBookRepository
-    {
+	public interface IBookRepository : ICommittableRepository
+	{
 		IEnumerable<Book> GetAll();
 		Book GetBy(int id);
 		void AddNew(Book book);
-    }
+	}
 }

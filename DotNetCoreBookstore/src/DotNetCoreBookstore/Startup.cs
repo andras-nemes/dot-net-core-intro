@@ -19,13 +19,14 @@ using System.IO;
 using Microsoft.AspNetCore.Routing.Constraints;
 using DotNetCoreBookstore.Repositories;
 using DotNetCoreBookstore.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace DotNetCoreBookstore
 {
 	public class Startup
 	{
 		private IConfiguration Configuration { get; }
-
+		
 		public Startup(IHostingEnvironment hostingEnvironment)
 		{
 			ConfigurationBuilder configBuilder = new ConfigurationBuilder();
@@ -90,7 +91,7 @@ namespace DotNetCoreBookstore
 				//IGreeter branching logic ignored, supposedly depends on current time
 				return new GoodMorningGreeter();
 			});
-			services.AddScoped<IBookRepository, DebugBookRepository>();
+			services.AddScoped<IBookRepository, BookStoreRepository>();
 			services.AddScoped<IBookService, DebugBookService>();
 			/*
 			 * //https://docs.microsoft.com/sv-se/aspnet/core/fundamentals/configuration
@@ -104,6 +105,7 @@ namespace DotNetCoreBookstore
 			}*/
 
 			services.AddMvc();
+			services.AddDbContext<BookStoreDbContext>(dbContextOptionsBuilder => dbContextOptionsBuilder.UseSqlServer(Configuration.GetConnectionString("BookStore")));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

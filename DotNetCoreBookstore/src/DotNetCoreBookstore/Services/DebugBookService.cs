@@ -22,6 +22,7 @@ namespace DotNetCoreBookstore.Services
 			try
 			{
 				_bookRepository.AddNew(book);
+				_bookRepository.CommitChanges();			
 			}
 			catch
 			{

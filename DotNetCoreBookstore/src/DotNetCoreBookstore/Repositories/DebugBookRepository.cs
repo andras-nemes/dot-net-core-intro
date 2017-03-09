@@ -34,5 +34,10 @@ namespace DotNetCoreBookstore.Repositories
 			book.Id = _testBooks.Count + 1;
 			_testBooks.Add(book);
 		}
+
+		public void CommitChanges()
+		{
+			
+		}
 	}
 }
