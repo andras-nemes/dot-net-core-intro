@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.Routing.Constraints;
 using DotNetCoreBookstore.Repositories;
 using DotNetCoreBookstore.Services;
 using Microsoft.EntityFrameworkCore;
+using DotNetCoreBookstore.UserManagement;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace DotNetCoreBookstore
 {
@@ -106,6 +108,8 @@ namespace DotNetCoreBookstore
 
 			services.AddMvc();
 			services.AddDbContext<BookStoreDbContext>(dbContextOptionsBuilder => dbContextOptionsBuilder.UseSqlServer(Configuration.GetConnectionString("BookStore")));
+			services.AddDbContext<UserManagementDbContext>(dbContextOptionsBuilder => dbContextOptionsBuilder.UseSqlServer(Configuration.GetConnectionString("UserManagement")));
+			services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<UserManagementDbContext>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -156,6 +160,7 @@ namespace DotNetCoreBookstore
 			});*/
 
 			app.UseWelcomePage("/hello");
+			app.UseIdentity();			
 			app.UseMvc(routeBuilder =>
 			{
 				//routeBuilder.MapRoute("Default", "{controller=Home}/{action=Index}/{id?}");
