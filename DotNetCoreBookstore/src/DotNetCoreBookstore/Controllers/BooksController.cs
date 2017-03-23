@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using DotNetCoreBookstore.Models;
 using DotNetCoreBookstore.Services;
 using DotNetCoreBookstore.Domains;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DotNetCoreBookstore.Controllers
 {
+	[Authorize]
     public class BooksController : Controller
     {
 		private readonly IBookService _bookService;
@@ -21,6 +23,7 @@ namespace DotNetCoreBookstore.Controllers
 			_bookService = bookService;
 		}
 
+		[AllowAnonymous]
 		public IActionResult Index()
 		{
 			

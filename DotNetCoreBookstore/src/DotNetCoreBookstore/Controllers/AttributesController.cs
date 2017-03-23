@@ -13,7 +13,7 @@ namespace DotNetCoreBookstore.Controllers
 	[Route("mickeymouse")]
 	[Route("pluto")]
 	[Route("looneytunes")]
-	public class Attributes : Controller
+	public class AttributesController : Controller
 	{        
 		//[Route("donaldduck")]
 		[HttpGet("donaldduck")]
