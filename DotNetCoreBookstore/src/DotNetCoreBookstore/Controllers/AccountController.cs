@@ -33,10 +33,16 @@ namespace DotNetCoreBookstore.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				User newUser = new User()
+				{
+					UserName = registrationViewModel.Username,
+					YearOfBirth = registrationViewModel.YearOfBirth
+				};
 				IdentityResult userCreationResult = 
-					await _userManager.CreateAsync(new User() { UserName = registrationViewModel.Username, YearOfBirth = registrationViewModel.YearOfBirth }, registrationViewModel.Password);
+					await _userManager.CreateAsync(newUser, registrationViewModel.Password);
 				if (userCreationResult.Succeeded)
 				{
+					await _signinManager.PasswordSignInAsync(newUser.UserName, registrationViewModel.Password, false, false);
 					return RedirectToAction("Index", "Books");
 				}
 				else
@@ -56,6 +62,13 @@ namespace DotNetCoreBookstore.Controllers
 		}
 
 		[HttpPost, ValidateAntiForgeryToken]
+		public async Task<IActionResult> Logout()
+		{		
+			await _signinManager.SignOutAsync();
+			return RedirectToAction("Index", "Books");
+		}
+
+		[HttpPost, ValidateAntiForgeryToken]
 		public async Task<IActionResult> Login(UserLoginViewModel userLoginViewModel)
 		{
 			if (ModelState.IsValid)
@@ -63,7 +76,14 @@ namespace DotNetCoreBookstore.Controllers
 				var signInResult = await _signinManager.PasswordSignInAsync(userLoginViewModel.Username, userLoginViewModel.Password, userLoginViewModel.RememberMe, false);
 				if (signInResult.Succeeded)
 				{
-					return Redirect(userLoginViewModel.ReturnUrl);
+					if (!string.IsNullOrEmpty(userLoginViewModel.ReturnUrl))
+					{
+						return Redirect(userLoginViewModel.ReturnUrl);
+					}
+					else
+					{
+						return RedirectToAction("Index", "Books");
+					}
 				}
 			}
 			ModelState.AddModelError("", "Login failure. Please check your username and password");

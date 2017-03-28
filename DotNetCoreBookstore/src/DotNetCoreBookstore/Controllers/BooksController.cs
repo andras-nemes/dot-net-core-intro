@@ -7,6 +7,7 @@ using DotNetCoreBookstore.Models;
 using DotNetCoreBookstore.Services;
 using DotNetCoreBookstore.Domains;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,7 +27,9 @@ namespace DotNetCoreBookstore.Controllers
 		[AllowAnonymous]
 		public IActionResult Index()
 		{
-			
+			Debug.WriteLine(string.Concat("User is authenticated: ", User.Identity.IsAuthenticated));
+			Debug.WriteLine(string.Concat("User is an admin: ", User.IsInRole("Administrators")));
+			Debug.WriteLine(string.Concat("User claims: ", string.Join("|", (from c in User.Claims select string.Concat("Key: ", c.Type, ", value: ", c.Value)))));
 			return View(GetBookIndexViewModel());
 		}
 

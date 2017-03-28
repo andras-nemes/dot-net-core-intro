@@ -9,6 +9,20 @@
 </head>
 <body>
     <div>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <span>Welcome @User.Identity.Name</span>
+            <form method="post" asp-controller="Account" asp-action="Logout" asp-antiforgery="true">
+                <input type="submit" value="Log out" />
+            </form>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Register">Register</a>
+            <a asp-controller="Account" asp-action="Login">Log in</a>
+        }
+    </div>
+    <div>
         @RenderBody()
     </div>
     <div>
